@@ -1,0 +1,31 @@
+/* ==================================
+   DJANGO ADMIN – TEMA OLIVA DEFINITIVO
+   ================================== */
+
+:root {
+  /* colores base */
+  --primary: #6b8e23;
+  --secondary: #556b2f;
+  --accent: #7c9a2d;
+
+  /* header */
+  --header-bg: #6b8e23;
+  --header-color: #f6f7f2;
+  --header-link-color: #f6f7f2;
+  --header-branding-color: #f6f7f2;
+
+  /* enlaces */
+  --link-fg: #6b8e23;
+  --link-hover-color: #556b2f;
+
+  /* botones */
+  --button-bg: #6b8e23;
+  --button-hover-bg: #556b2f;
+  --default-button-bg: #556b2f;
+  --default-button-hover-bg: #6b8e23;
+}
+
+/* refuerzo directo */
+#header {
+  background-color: #6b8e23 !important;
+}
