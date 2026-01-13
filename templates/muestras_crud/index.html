@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Gráficos de Muestras</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <h2>Comparación BJH: Adsorción vs Desorción</h2>
+  <svg id="bjhChart" width="800" height="400"></svg>
+
+  <script>
+  Promise.all([
+    d3.json("{% static 'output_json/bjha.json' %}"),
+    d3.json("{% static 'output_json/bjhd.json' %}")
+  ]).then(([ads, des]) => {
+    const svg = d3.select("#bjhChart");
+    const x = d3.scaleLinear()
+      .domain(d3.extent(ads, d => d.Radius))
+      .range([50, 750]);
+    const y = d3.scaleLinear()
+      .domain([0, d3.max([...ads, ...des], d => d["dV(r)"] || d["dV(logr)"])])
+      .range([350, 50]);
+    
+    svg.append("g").attr("transform", "translate(0,350)").call(d3.axisBottom(x));
+    svg.append("g").attr("transform", "translate(50,0)").call(d3.axisLeft(y));
+
+    svg.selectAll(".ads")
+      .data(ads)
+      .enter()
+      .append("circle")
+      .attr("cx", d => x(d.Radius))
+      .attr("cy", d => y(d["dV(r)"]))
+      .attr("r", 3)
+      .attr("fill", "green");
+
+    svg.selectAll(".des")
+      .data(des)
+      .enter()
+      .append("circle")
+      .attr("cx", d => x(d.Radius))
+      .attr("cy", d => y(d["dV(logr)"]))
+      .attr("r", 3)
+      .attr("fill", "blue");
+  });
+  </script>
+</body>
+</html>

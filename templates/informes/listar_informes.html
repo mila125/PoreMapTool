@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Configuración</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+    <script>
+        function updatePath(inputId, fileInput) {
+            const pathInput = document.getElementById(inputId);
+            if (fileInput.files.length > 0) {
+                pathInput.value = fileInput.files[0].webkitRelativePath 
+                    ? fileInput.files[0].webkitRelativePath.split('/')[0]
+                    : fileInput.files[0].name;
+            }
+        }
+
+        function toggleQpsMode() {
+            const pathInput = document.getElementById('path_qps');
+            pathInput.value = '';
+
+            const mode = document.querySelector('input[name="qps_mode"]:checked').value;
+            const btn = document.getElementById('btn_qps');
+            btn.textContent = mode === 'file' ? 'Buscar archivo' : 'Buscar carpeta';
+        }
+
+        function openQpsSelector() {
+            const mode = document.querySelector('input[name="qps_mode"]:checked').value;
+            const fileInput = document.getElementById('browse_qps_file');
+            const folderInput = document.getElementById('browse_qps_folder');
+
+            if (mode === 'file') {
+                fileInput.click();
+            } else {
+                folderInput.click();
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            toggleQpsMode();
+            document.querySelectorAll('input[name="qps_mode"]').forEach(radio => {
+                radio.addEventListener('change', toggleQpsMode);
+            });
+        });
+    </script>
+</head>
+
+<body class="bg-light">
+<div class="container mt-5">
+    <h1 class="text-center mb-4 text-primary">⚙️ Configuración de Ejecución</h1>
+
+    <form method="post" enctype="multipart/form-data" class="card p-4 shadow">
+        {% csrf_token %}
+
+        <!-- Ruta NovaWin -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Ruta NovaWin:</label>
+            <div class="input-group">
+                <input type="text" id="path_novawin" name="path_novawin" class="form-control"
+                       value="C:\Quantachrome Instruments\NovaWin\NovaWin.exe">
+                <input type="file" id="browse_novawin" accept=".exe" style="display:none;"
+                       onchange="updatePath('path_novawin', this)">
+                <button type="button" class="btn btn-outline-secondary"
+                        onclick="document.getElementById('browse_novawin').click()">Buscar</button>
+            </div>
+        </div>
+
+        <!-- Tipo de QPS -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Tipo de QPS:</label><br>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="qps_mode" id="mode_folder" value="folder" checked>
+                <label class="form-check-label" for="mode_folder">Carpeta con archivos QPS</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="qps_mode" id="mode_file" value="file">
+                <label class="form-check-label" for="mode_file">Archivo único .QPS</label>
+            </div>
+        </div>
+
+        <!-- Ruta QPS -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Ruta del archivo o carpeta QPS:</label>
+            <div class="input-group">
+                <input type="text" id="path_qps" name="path_qps" class="form-control"
+                       placeholder="Pega o escribe la ruta completa del archivo o carpeta QPS">
+                <input type="file" id="browse_qps_file" accept=".qps" style="display:none;"
+                       onchange="updatePath('path_qps', this)">
+                <input type="file" id="browse_qps_folder" webkitdirectory directory multiple style="display:none;"
+                       onchange="updatePath('path_qps', this)">
+                <button type="button" id="btn_qps" class="btn btn-outline-secondary" onclick="openQpsSelector()">
+                    Buscar (opcional)
+                </button>
+            </div>
+            <div class="form-text text-muted">
+                Consejo: por seguridad, el navegador no puede acceder a rutas completas automáticamente.  
+                Escribe o pega manualmente la ruta local de la carpeta o archivo <code>.qps</code>.
+            </div>
+        </div>
+
+        <!-- Carpeta exportación -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Carpeta exportación:</label>
+            <div class="input-group">
+                <input type="text" id="export_folder" name="export_folder" class="form-control"
+                       value="C:\QCdata\Reports">
+                <input type="file" id="browse_export" webkitdirectory directory style="display:none;"
+                       onchange="updatePath('export_folder', this)">
+                <button type="button" class="btn btn-outline-secondary"
+                        onclick="document.getElementById('browse_export').click()">Buscar</button>
+            </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg"> Ejecutar análisis</button>
+            <a href="/admin/muestras_crud/informe/" class="btn btn-secondary btn-lg ms-3">⬅ Volver</a>
+        </div>
+    </form>
+</div>
+
+{% if messages %}
+<div class="container mt-4">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+</body>
+</html>

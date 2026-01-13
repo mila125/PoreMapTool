@@ -1,0 +1,19 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block branding %}
+<img src="{% static 'admin_interface/logo/logo.png' %}"
+     alt="Logo oscuro"
+     class="logo logo-dark"
+     style="height:36px; width:auto;">
+
+<span class="site-name" style="margin-left:10px;">Dashboard</span>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/oliva-theme.css' %}">
+<link rel="stylesheet" href="{% static 'css/custom_admin.css' %}">
+{% endblock %}
