@@ -1,0 +1,7 @@
+<img src="{% static 'images/logo.png' %}" alt="Logo">
+<h1>"Eliminar informe "{{ muestra.nombre }}"?</h1>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Sí, eliminar</button>
+    <a href="{% url 'lista_muestras' %}">Cancelar</a>
+</form>

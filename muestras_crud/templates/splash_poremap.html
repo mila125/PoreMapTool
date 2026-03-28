@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PoreMap - Inicio</title>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<style>
+/* ===== ESTILOS GENERALES ===== */
+body {
+    margin: 0;
+    background-color: rgba(230, 234, 220, 1);
+    font-family: Arial, sans-serif;
+}
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.splash-container {
+    margin: 40px auto;
+    padding: 50px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 1200px;
+    position: relative;
+    text-align: center;
+}
+
+/* ===== LOGO ===== */
+.logo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 110px;
+}
+
+/* ===== TÍTULO ===== */
+.splash-title {
+    font-size: 2.5rem;
+    color: #101510;
+    margin-bottom: 50px;
+}
+
+/* ===== BOTONES ===== */
+.button-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    margin-bottom: 60px;
+}
+
+.button-group a {
+    padding: 14px 20px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: rgba(107, 142, 35, 1);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.button-group a:hover {
+    background-color: #2b382a;
+    transform: translateY(-3px);
+}
+
+/* ===== CARRUSEL ===== */
+#carouselExampleControls {
+    max-width: 800px;
+    margin: auto;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* IMAGEN */
+.carousel-item img {
+    height: 450px;
+    width: 100%;
+    object-fit: contain;
+    background-color: #e6eadc;
+}
+
+/* LABEL SOBRE IMAGEN */
+.carousel-caption.custom-caption {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(6px);
+    color: #1f2a1f;
+    padding: 12px 22px;
+    border-radius: 14px;
+    max-width: 85%;
+    font-size: 1rem;
+    line-height: 1.4;
+    text-align: center;
+}
+
+/* Animación suave */
+.carousel-item .custom-caption {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.carousel-item.active .custom-caption {
+    opacity: 1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="splash-container">
+
+    <!-- LOGO -->
+    <img src="{% static 'admin_interface/logo/logo.png' %}" alt="Logo PoreMap" class="logo">
+
+    <!-- TÍTULO -->
+    <h1 class="splash-title">Mapea tus muestras con</h1>
+
+    <!-- BOTONES -->
+    <div class="button-group">
+        <a href="{% url 'panel_configuracion' %}">Generar Informes</a>
+        <a href="{% url 'pca_visualizacion' %}">Ver Clasificación</a>
+        <a href="{% url 'tutorial' %}">Tutorial</a>
+    </div>
+
+    <!-- CARRUSEL -->
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+
+        <div class="carousel-inner">
+
+            <div class="carousel-item active">
+                <img src="{% static 'admin_interface/splash/img1.png' %}" alt="Generación de informes">
+                <div class="carousel-caption custom-caption">
+                    Genera reportes detallados y exportables a partir de tus datos
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img src="{% static 'admin_interface/splash/img2.png' %}" alt="Clasificación PCA">
+                <div class="carousel-caption custom-caption">
+                    Analiza y visualiza la clasificación usando PCA
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img src="{% static 'admin_interface/splash/img3.png' %}" alt="Tutorial PoreMap">
+                <div class="carousel-caption custom-caption">
+                    Guía paso a paso para aprender a usar PoreMap
+                </div>
+            </div>
+
+        </div>
+
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

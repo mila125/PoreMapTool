@@ -1,0 +1,7 @@
+<h1>{{ accion }} Informe</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{{ accion }}</button>
+</form>
+<a href="{% url 'lista_muestras' %}">Volver</a>

@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Gráficos de Muestras</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body { font-family: sans-serif; background: #f9fafb; padding: 20px; }
+    h2 { color: #333; margin-top: 40px; }
+    svg { background: white; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); margin-bottom: 40px; }
+  </style>
+</head>
+<body>
+
+  <h1>Gráficos automáticos de muestras</h1>
+
+  <h2>BJH — Adsorción vs Desorción (Barras combinadas)</h2>
+  <svg id="bjhChart" width="928" height="500"></svg>
+
+  <h2>DFT — Distribución de tamaño de poro</h2>
+  <svg id="dftChart" width="640" height="400"></svg>
+
+  <h2>HK — Distribución de poros (línea)</h2>
+  <svg id="hkChart" width="640" height="400"></svg>
+
+  <h2>BET — Isoterma de adsorción</h2>
+  <svg id="betChart" width="640" height="400"></svg>
+
+
+  <script>
+  // === BJH ===
+  d3.json("{% static 'output_json/bjh.json' %}").then(data => {
+    const width = 928, height = 500, margin = {top: 10, right: 0, bottom: 30, left: 40};
+    const svg = d3.select("#bjhChart");
+
+    const x = d3.scaleBand()
+      .domain(data.map(d => d.radius))
+      .range([margin.left, width - margin.right])
+      .padding(0.1);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, d => Math.max(d.adsorcion, d.desorcion))]).nice()
+      .range([height - margin.bottom, margin.top]);
+
+    svg.append("g").attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x).tickFormat(d3.format(".1f")).tickSizeOuter(0));
+
+    svg.append("g").attr("transform", `translate(${margin.left},0)`)
+      .call(d3.axisLeft(y));
+
+    // Adsorción
+    svg.append("g")
+      .selectAll("rect.ads")
+      .data(data)
+      .join("rect")
+        .attr("class", "ads")
+        .attr("x", d => x(d.radius))
+        .attr("y", d => y(d.adsorcion))
+        .attr("width", x.bandwidth()/2)
+        .attr("height", d => y(0) - y(d.adsorcion))
+        .attr("fill", "steelblue");
+
+    // Desorción
+    svg.append("g")
+      .selectAll("rect.des")
+      .data(data)
+      .join("rect")
+        .attr("class", "des")
+        .attr("x", d => x(d.radius) + x.bandwidth()/2)
+        .attr("y", d => y(d.desorcion))
+        .attr("width", x.bandwidth()/2)
+        .attr("height", d => y(0) - y(d.desorcion))
+        .attr("fill", "orange");
+
+    svg.append("text")
+      .attr("x", width/2)
+      .attr("y", 20)
+      .attr("text-anchor", "middle")
+      .attr("font-size", "14px")
+      .text("BJH — Adsorción vs Desorción");
+  });
+
+
+  // === DFT ===
+  d3.json("{% static 'output_json/dft.json' %}").then(data => {
+    const svg = d3.select("#dftChart");
+    const width = 640, height = 400, margin = {top: 20, right: 10, bottom: 30, left: 40};
+
+    const x = d3.scaleBand()
+      .domain(data.map(d => d[data.columns?.[0] || "x"]))
+      .range([margin.left, width - margin.right])
+      .padding(0.1);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d[data.columns?.[1] || "y"])])
+      .range([height - margin.bottom, margin.top]);
+
+    svg.append("g")
+      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x).tickFormat(() => "").tickSizeOuter(0));
+
+    svg.append("g")
+      .attr("transform", `translate(${margin.left},0)`)
+      .call(d3.axisLeft(y));
+
+    svg.append("g")
+      .selectAll("rect")
+      .data(data)
+      .join("rect")
+        .attr("x", (d, i) => x(i))
+        .attr("y", d => y(d[Object.keys(d)[1]]))
+        .attr("width", x.bandwidth())
+        .attr("height", d => y(0) - y(d[Object.keys(d)[1]]))
+        .attr("fill", "steelblue")
+        .style("mix-blend-mode", "multiply");
+  });
+
+
+  // === HK ===
+  d3.json("{% static 'output_json/hk.json' %}").then(data => {
+    const svg = d3.select("#hkChart");
+    const width = 640, height = 400, margin = {top: 20, right: 10, bottom: 30, left: 40};
+
+    const x = d3.scaleLinear()
+      .domain(d3.extent(data, d => d[Object.keys(d)[0]])).nice()
+      .range([margin.left, width - margin.right]);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d[Object.keys(d)[1]])]).nice()
+      .range([height - margin.bottom, margin.top]);
+
+    svg.append("g").attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x));
+
+    svg.append("g").attr("transform", `translate(${margin.left},0)`)
+      .call(d3.axisLeft(y));
+
+    const line = d3.line()
+      .x(d => x(d[Object.keys(d)[0]]))
+      .y(d => y(d[Object.keys(d)[1]]));
+
+    svg.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "green")
+      .attr("stroke-width", 1.5)
+      .attr("d", line);
+  });
+
+
+  // === BET ===
+  d3.json("{% static 'output_json/bet.json' %}").then(data => {
+    const svg = d3.select("#betChart");
+    const width = 640, height = 400, margin = {top: 20, right: 10, bottom: 30, left: 40};
+
+    const x = d3.scaleLinear()
+      .domain(d3.extent(data, d => d[Object.keys(d)[0]])).nice()
+      .range([margin.left, width - margin.right]);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d[Object.keys(d)[1]])]).nice()
+      .range([height - margin.bottom, margin.top]);
+
+    svg.append("g").attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x));
+
+    svg.append("g").attr("transform", `translate(${margin.left},0)`)
+      .call(d3.axisLeft(y));
+
+    svg.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "purple")
+      .attr("stroke-width", 1.5)
+      .attr("d", d3.line()
+        .x(d => x(d[Object.keys(d)[0]]))
+        .y(d => y(d[Object.keys(d)[1]])));
+  });
+  </script>
+</body>
+</html>

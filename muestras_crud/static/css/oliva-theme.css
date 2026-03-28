@@ -1,0 +1,44 @@
+/* ============================
+   DJANGO ADMIN – TEMA OLIVA
+   ============================ */
+
+/* VARIABLES DEL ADMIN */
+:root {
+  --primary: #6b8e23 !important;
+  --secondary: #556b2f !important;
+  --accent: #7c9a2d !important;
+
+  --header-bg: #6b8e23 !important;
+  --header-color: #f6f7f2 !important;
+  --header-link-color: #f6f7f2 !important;
+
+  --link-color: #6b8e23 !important;
+  --link-hover-color: #556b2f !important;
+}
+
+/* HEADER */
+#header {
+  background-color: var(--header-bg) !important;
+}
+
+/* LINKS HEADER */
+#header a,
+#header span,
+#header strong {
+  color: var(--header-color) !important;
+}
+
+/* BOTONES */
+.button,
+.button.default,
+input[type="submit"],
+input[type="button"] {
+  background-color: var(--primary) !important;
+  border-color: var(--secondary) !important;
+}
+
+/* BOTONES HOVER */
+.button:hover,
+input[type="submit"]:hover {
+  background-color: var(--secondary) !important;
+}

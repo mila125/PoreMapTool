@@ -1,0 +1,8 @@
+<h1>Empresas</h1>
+<ul>
+  {% for empresa in empresas %}
+    <li>{{ empresa.nombre }} — Encargado: {{ empresa.encargado }}</li>
+  {% empty %}
+    <li>No hay empresas registradas.</li>
+  {% endfor %}
+</ul>

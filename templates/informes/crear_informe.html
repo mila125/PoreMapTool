@@ -1,0 +1,6 @@
+<h1>Subir informe para {{ muestra.nombre }}</h1>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form }}
+  <button type="submit">Subir informe</button>
+</form>

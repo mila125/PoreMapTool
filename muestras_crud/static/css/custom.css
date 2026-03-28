@@ -1,0 +1,145 @@
+:root {
+    --primary: #6B8E23;        /* verde oliva */
+    --accent: #A2B86C;         /* oliva claro */
+    --secondary: #7b7b7b;      /* plomo */
+
+    --body-bg: #fdfdfd;        /* fondo claro */
+    --body-fg: #333333;        /* texto principal */
+
+    --darkened-bg: #eeeeee;    /* filas alternas */
+    --selected-bg: #e6edd2;    /* hover en filas */
+
+    --button-bg: #6B8E23;      /* botones */
+    --button-fg: #ffffff;
+    --button-hover-bg: #556B2F;
+
+    --font-family-primary: "Segoe UI", Arial, sans-serif;
+}
+
+/* Estilo base */
+body {
+    background-color: var(--body-bg);
+    color: var(--body-fg);
+    font-family: var(--font-family-primary);
+    padding: 20px;
+}
+
+h1 {
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+/* Links */
+a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--accent);
+}
+
+/* Tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: var(--body-bg);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid var(--secondary);
+    text-align: left;
+}
+
+th {
+    background-color: var(--secondary);
+    color: oklab(94.77799999999999% -0.05282 0.03117);
+}
+
+tr:nth-child(even) {
+    background-color: var(--darkened-bg);
+}
+
+tr:hover {
+    background-color: var(--selected-bg);
+}
+
+/* Botones */
+.actions a {
+    background-color: var(--button-bg);
+    color: var(--button-fg);
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-right: 5px;
+    display: inline-block;
+    font-size: 0.875rem;
+    transition: background-color 0.3s;
+}
+
+.actions a:hover {
+    background-color: var(--button-hover-bg);
+    color: rgb(230 234 220);
+}
+
+.btn-olive {
+    background-color: olive !important;      /* fondo oliva */
+    color: rgb(230 234 220);               /* texto blanco */
+    border: 1px solid #556B2F !important;   /* borde más oscuro */
+}
+
+.btn-olive:hover {
+    background-color: #556B2F !important;   /* fondo más oscuro al pasar el mouse */
+    color: #d4f442 !important;              /* color del texto al hover */
+}
+form.card {
+    background-color: #80800020; /* oliva muy transparente */
+}
+/* Botones personalizados oliva */
+.btn-olive {
+    background-color: #e082ac !important; /* color rosado principal */
+    color: rgb(230 234 220);           /* texto blanco */
+    border: 1px solid #c34b4b !important; /* borde más oscuro */
+    font-weight: bold;
+}
+
+.btn-olive:hover,
+.btn-olive:focus {
+    background-color: #c34b4b !important; /* rosado más oscuro al hover */
+    color: rgb(230 234 220);
+}
+
+/* Cuando el botón está dentro de un input-group */
+.input-group .btn-olive {
+    z-index: 2; /* asegurarse que esté encima de otros elementos */
+}
+/* Card del panel */
+.card.custom-card {
+    background-color: #f0f5d0 !important; /* oliva muy suave */
+    color: #333 !important; /* texto oscuro */
+}
+
+/* Títulos y labels */
+.card.custom-card h4,
+.card.custom-card label {
+    color: #333 !important;
+}
+/* Evita que el admin use dark mode */
+html {
+    color-scheme: light !important;
+}
+
+/* Si Django intenta aplicar data-theme="dark" */
+html[data-theme="dark"] {
+    color-scheme: light !important;
+}
+
+/* Fuerza colores claros */
+:root,
+html[data-theme="dark"] {
+    --body-bg: #ffffff;
+    --body-fg: #000000;
+    --header-bg: #f8f9fa;
+}

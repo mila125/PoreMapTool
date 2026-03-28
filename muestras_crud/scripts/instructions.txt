@@ -1,0 +1,4 @@
+librerias que usé  Matplotlib
+
+
+Script se ejecuta desde la carpeta test . Cómo resultado devuelve 2 archivos xslx y pdf dentro de la carpeta .temp . Luego el informe se genera automaticamente y se guarda en el registro de base de datos . Se le adjudican estos dos archivos 

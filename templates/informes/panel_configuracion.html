@@ -1,0 +1,258 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Configuración</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+ <style>
+    /* Botones personalizados suaves */
+    .btn-olive {
+        background-color: #8fae98 !important; /* verde oliva suave */
+        color: #fff !important;               /* texto blanco */
+        border: 1px solid #6f8b75 !important; /* borde un poco más oscuro */
+        font-weight: bold;
+    }
+
+    .btn-olive:hover,
+    .btn-olive:focus {
+        background-color: #6f8b75 !important; /* verde más oscuro al hover */
+        color: #fff !important;
+    }
+
+    /* Asegura que los botones dentro de input-group sean visibles */
+    .input-group .btn-olive {
+        z-index: 2;
+    }
+
+    /* Texto de labels y captions en gris suave */
+    .form-label {
+        color: #4a4a4a !important;
+    }
+
+    /* Títulos y textos destacados en rosado oscuro */
+    h1, h4, .text-primary {
+        color: #1f3b11ff !important; /* rosado oscuro elegante */
+    }
+
+    /* Links o botones que tengan text-primary también adoptarán el rosado */
+    a.text-primary {
+        color: #1b4d29ff !important;
+    }
+</style>
+    <script>
+        function updatePath(inputId, fileInput) {
+            const pathInput = document.getElementById(inputId);
+            if (fileInput.files.length > 0) {
+                pathInput.value = fileInput.files[0].webkitRelativePath
+                    ? fileInput.files[0].webkitRelativePath.split('/')[0]
+                    : fileInput.files[0].name;
+            }
+        }
+
+        function openQpsSelector() {
+            document.getElementById('browse_qps_folder').click();
+        }
+    </script>
+</head>
+
+<body class="bg-light">
+
+<div class="p-3 bg-white shadow-sm mb-4 d-flex align-items-center">
+    <img src="{% static 'admin_interface/logo/logo.png' %}" 
+     alt="Logo PoreMap"
+     style="height:40px; width:auto;">
+    <h4 class="m-0 text-primary">Panel de Configuración</h4>
+</div>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4 text-primary">Configuración de Ejecución</h1>
+
+    <form method="post" enctype="multipart/form-data" class="card p-4 shadow" style="background-color: #80800020;">
+        {% csrf_token %}
+
+        <!-- Ruta NovaWin -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Ruta NovaWin:</label>
+            <div class="input-group">
+                <input type="text" id="path_novawin" name="path_novawin" class="form-control"
+                       value="C:\Quantachrome Instruments\NovaWin\NovaWin.exe">
+                <input type="file" id="browse_novawin" accept=".exe" style="display:none;"
+                       onchange="updatePath('path_novawin', this)">
+                <button type="button" class="btn btn-olive" onclick="document.getElementById('browse_novawin').click()">Buscar</button>
+            </div>
+        </div>
+
+        <!-- Subir Carpeta QPS -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Subir Carpeta con archivos QPS:</label>
+            <div class="input-group">
+                <input type="file" id="browse_qps_folder" name="qps_folder_upload" webkitdirectory directory multiple style="display:none;"
+                       onchange="updatePath('path_qps_display', this)">
+                <input type="text" id="path_qps_display" class="form-control" readonly
+                       placeholder="Nombre de la carpeta subida aparecerá aquí">
+                <button type="button" class="btn btn-olive" onclick="openQpsSelector()">Buscar Carpeta</button>
+            </div>
+            <div class="form-text text-muted">
+                Selecciona la carpeta que contiene tus archivos <code>.qps</code>.
+            </div>
+        </div>
+
+        <!-- Ruta del archivo o carpeta QPS -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Ruta del archivo o carpeta QPS:</label>
+            <div class="input-group">
+                <input type="text" id="path_qps" name="path_qps" class="form-control"
+                       placeholder="Pega o escribe la ruta completa del archivo o carpeta QPS">
+                <button type="button" class="btn btn-olive" onclick="openQpsSelector()">Buscar (opcional)</button>
+            </div>
+        </div>
+
+        <!-- Carpeta exportación -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Carpeta exportación:</label>
+            <div class="input-group">
+                <input type="text" id="export_folder" name="export_folder" class="form-control"
+                       value="C:\QCdata\Reports">
+                <input type="file" id="browse_export" webkitdirectory directory style="display:none;"
+                       onchange="updatePath('export_folder', this)">
+                <button type="button" class="btn btn-olive" onclick="document.getElementById('browse_export').click()">Buscar</button>
+            </div>
+        </div>
+
+        <!-- Información del Análisis Microestructural -->
+        <div class="card p-4 shadow mt-4">
+            <h4 class="mb-3" style="color:#e082ac;">Información del Análisis Microestructural</h4>
+            <div class="row">
+  <div class="col-md-4 mb-3">
+    <label class="form-label fw-bold">Fecha:</label>
+    <input type="date" name="fecha" class="form-control" required>
+  </div>
+
+  <div class="col-md-4 mb-3">
+    <label class="form-label fw-bold">Equipo:</label>
+    <input type="text" name="equipo" class="form-control"
+           placeholder="Ej: Quantachrome NOVA 2200e" required>
+  </div>
+
+  <div class="col-md-4 mb-3">
+    <label class="form-label fw-bold">Duración de procesamiento:</label>
+    <input type="text" name="duracion_procesamiento" class="form-control"
+           placeholder="Ej: 8 horas">
+  </div>
+</div>
+ 
+  <!-- Tipo de análisis / Tipo de muestra -->
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label fw-bold">Tipo de análisis:</label>
+      <select name="tipo_analisis"
+              class="form-select form-select-sm" required>
+        <option value="">Seleccione tipo de análisis</option>
+        <option value="BET">BET</option>
+      </select>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label fw-bold">Tipo de muestra:</label>
+      <input type="text"
+             name="tipo_muestra"
+             class="form-control form-control-sm"
+             placeholder="Ej: ripio"
+             required>
+    </div>
+  </div>
+
+
+  <!-- Operador / Cargo -->
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label fw-bold">Nombre del operador:</label>
+      <input type="text"
+             name="nombre_operador"
+             class="form-control form-control-sm"
+             required>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label fw-bold">Cargo:</label>
+      <input type="text"
+             name="cargo_operador"
+             class="form-control form-control-sm">
+    </div>
+  </div>
+
+  <!-- Contacto / Solicitante -->
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label fw-bold">Datos de contacto:</label>
+      <input type="text"
+             name="contacto_operador"
+             class="form-control form-control-sm"
+             placeholder="Correo, WhatsApp, etc.">
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label fw-bold">Nombre del solicitante:</label>
+      <input type="text"
+             name="nombre_solicitante"
+             class="form-control form-control-sm">
+    </div>
+  </div>
+
+  <!-- Empresa / Orden de trabajo -->
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label fw-bold">Nombre de la empresa:</label>
+      <input type="text"
+             name="nombre_empresa"
+             class="form-control form-control-sm">
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label fw-bold">Orden de trabajo:</label>
+      <input type="text"
+             name="orden_trabajo"
+             class="form-control form-control-sm">
+    </div>
+  </div>
+
+  <!-- Anexos / Firma -->
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label fw-bold">Archivos anexos (opcional):</label>
+      <input type="file"
+             name="archivos_anexo"
+             class="form-control form-control-sm"
+             multiple>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label fw-bold">Firma del operador (PNG):</label>
+      <input type="file"
+             name="firma_png"
+             class="form-control form-control-sm"
+             accept="image/png">
+    </div>
+  </div>
+
+        <!-- Botones -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-olive btn-lg">Ejecutar análisis</button>
+            <a href="/admin/muestras_crud/informe/" class="btn btn-secondary btn-lg ms-3">⬅ Volver</a>
+        </div>
+    </form>
+</div>
+
+{% if messages %}
+<div class="container mt-4">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+
+# Entornos
+venv/
+env/
+.conda/
+
+# Django
+db.sqlite3
+
+# Static generados
+staticfiles/
+temp/
+graficos_temp/
+
+# Build / PyInstaller
+build/
+dist/
+*.spec
+*.exe
+*.pkg
+
+# Logs
+*.log
+
+# OS
+desktop.ini
+.DS_Store

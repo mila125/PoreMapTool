@@ -1,0 +1,132 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block content %}
+
+<h2>Visualización PCA, K-Means y Caracterización de Clústeres (V-Test)</h2>
+
+{% if error %}
+    <p style="color:red;">{{ error }}</p>
+{% else %}
+
+<!-- ===================== GRÁFICOS ===================== -->
+<div style="display:flex; gap:40px; flex-wrap:wrap; margin-bottom:30px;">
+
+    {% if pca_img %}
+    <div style="flex:1 1 400px; max-width:50%;">
+        <h3>Análisis de Componentes Principales (PCA)</h3>
+        <p>
+            Varianza explicada — PC1: {{ pc1_var }}% | PC2: {{ pc2_var }}%
+        </p>
+        <img src="data:image/png;base64,{{ pca_img }}"
+             alt="Gráfico PCA"
+             style="width:100%; border:1px solid #ccc;">
+    </div>
+    {% endif %}
+
+    {% if pca_cumulative_variance_img %}
+    <div style="flex:1 1 400px; max-width:50%;">
+        <h3>Varianza Explicada Acumulada</h3>
+        <p>
+            Representa el porcentaje acumulado de varianza retenida al incorporar
+            sucesivamente componentes principales, permitiendo seleccionar el
+            número óptimo de PCs.
+        </p>
+        <img src="data:image/png;base64,{{ pca_cumulative_variance_img }}"
+             alt="Varianza explicada acumulada"
+             style="width:100%; border:1px solid #ccc;">
+    </div>
+    {% endif %}
+
+    {% if kmeans_vectors_img %}
+    <div style="flex:1 1 400px; max-width:50%;">
+        <h3>Clústeres K-Means con Vectores de Variables</h3>
+        <p>
+            Muestra la distribución de los clústeres y la contribución de las
+            variables originales al espacio reducido del PCA.
+        </p>
+        <img src="data:image/png;base64,{{ kmeans_vectors_img }}"
+             alt="K-Means con vectores"
+             style="width:100%; border:1px solid #ccc;">
+    </div>
+    {% endif %}
+
+</div>
+
+<hr>
+
+<!-- ===================== V-TEST ===================== -->
+<h2>Caracterización de Clústeres mediante V-Test</h2>
+
+<p>
+    El V-Test compara la media de cada variable dentro de un clúster con la media
+    del resto de la población. Valores con <strong>P-Value &lt; 0.05</strong>
+    indican diferencias estadísticamente significativas.
+</p>
+
+{% for cluster_name, results in v_test_results.items %}
+<div style="margin-bottom:30px; padding:15px; border:1px solid #343a40;
+            border-radius:5px; background-color:#f8f9fa;">
+
+    <h3 style="color:#007bff;">Clúster: {{ cluster_name }}</h3>
+
+    <table style="width:100%; border-collapse:collapse; margin-top:10px;">
+        <thead>
+            <tr style="background-color:#e9ecef;">
+                <th style="padding:8px; border:1px solid #ddd;">Variable</th>
+                <th style="padding:8px; border:1px solid #ddd; text-align:center;">
+                    Media del Clúster
+                </th>
+                <th style="padding:8px; border:1px solid #ddd; text-align:center;">
+                    Media del Resto
+                </th>
+                <th style="padding:8px; border:1px solid #ddd; text-align:center;">
+                    P-Value
+                </th>
+                <th style="padding:8px; border:1px solid #ddd; text-align:center;">
+                    Dirección
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for item in results %}
+            <tr>
+                <td style="padding:8px; border:1px solid #ddd;
+                           font-weight:{% if item.significance == 'Significativo' %}bold{% endif %};">
+                    {{ item.variable }}
+                </td>
+
+                <td style="padding:8px; border:1px solid #ddd; text-align:right;">
+                    {{ item.mean_cluster }}
+                </td>
+
+                <td style="padding:8px; border:1px solid #ddd; text-align:right;">
+                    {{ item.mean_rest }}
+                </td>
+
+                <td style="padding:8px; border:1px solid #ddd; text-align:right;
+                           color:{% if item.p_value < 0.05 %}green{% else %}gray{% endif %};">
+                    {{ item.p_value }}
+                </td>
+
+                <td style="padding:8px; border:1px solid #ddd;
+                           text-align:center; font-size:18px;">
+                    {% if item.direction == "up" %}
+                        <span style="color:green;">↑</span>
+                    {% elif item.direction == "down" %}
+                        <span style="color:red;">↓</span>
+                    {% else %}
+                        <span style="color:gray;">→</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endfor %}
+
+{% endif %}
+{% endblock %}

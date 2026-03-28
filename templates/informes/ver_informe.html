@@ -1,0 +1,11 @@
+<h1>Informe de {{ muestra.nombre }}</h1>
+{% if informe %}
+  <p><a href="{{ informe.archivo_xlsx.url }}" target="_blank">Descargar Excel</a></p>
+  <p><a href="{{ informe.archivo_pdf.url }}" target="_blank">Descargar PDF</a></p>
+{% else %}
+  <p>No hay informe aún.</p>
+  <a href="{% url 'crear_informe' muestra.id %}">Subir informe</a>
+{% endif %}
+<a href="{% url 'generar_informe_automatico' muestra.id %}"> class="btn btn-primary">
+     Ejecutar análisis y generar informe
+</a>

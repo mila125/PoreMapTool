@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PoreMap - Tutorial de Generación de Informes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: rgb(230 234 220);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .tutorial-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #00796b;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #00796b;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #004d40;
+            margin-top: 25px;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 5px;
+        }
+        .step {
+            margin-bottom: 30px;
+            padding: 15px;
+            border-left: 5px solid #00796b;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .step strong {
+            font-size: 1.1em;
+            color: #00796b;
+        }
+        .image-step {
+            display: block;
+            margin: 15px auto;
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #004d40;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .btn-back:hover {
+            background-color: #00796b;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tutorial-container">
+        <h1>Guía de Pasos para Generar Informes de Muestras</h1>
+        <p>Esta guía detalla el proceso para preparar y generar reportes de datos de porosidad utilizando el software **NovaWin** y posteriormente, gestionarlos en la plataforma PoreMap.</p>
+
+        <div class="step">
+            <h2>Paso 1: Abrir NovaWin </h2>
+            <p><strong>Localice e inicie la aplicación NovaWin.</strong> Asegúrese de que el software de análisis de porosidad esté correctamente instalado y listo para usar.</p>
+            <img src="{% static 'admin_interface/tutorial/img1.png' %}" alt="Icono de NovaWin" class="image-step" style="max-width: 300px;">
+        </div>
+        
+        <div class="step">
+            <h2>Paso 2: Abrir el Report Manager </h2>
+            <p>Una vez en NovaWin, navegue al menú superior **Configure** y seleccione la opción **Manage reports** para acceder al Report Manager.</p>
+            <img src="{% static 'admin_interface/tutorial/img2.png' %}" alt="Menú Configure y opción Manage reports" class="image-step" style="max-width: 500px;">
+        </div>
+
+        <div class="step">
+            <h2>Paso 3: Crear Nuevo Reporte </h2>
+            <p>Dentro de la ventana **Report Manager**:</p>
+            <ul>
+                <li>Haga clic en el botón **New** para comenzar la creación de un nuevo informe.</li>
+                <li>Asigne un nombre representativo a su reporte (e.g., "reportname" como se muestra).</li>
+            </ul>
+            <img src="{% static 'admin_interface/tutorial/img3.png' %}" alt="Ventana de Report Manager con botón New" class="image-step" style="max-width: 500px;">
+        </div>
+
+        <div class="step">
+            <h2>Paso 4: Organizar el Contenido del Reporte </h2>
+            <p>En la ventana de propiedades del reporte, seleccione los métodos y resultados que desea incluir en su informe. Para una visualización completa, es recomendable incluir los siguientes:</p>
+            <ul>
+                <li>En la columna izquierda (Applicable to: Physisorb), seleccione los resultados deseados (ej: **Pore Volume**, **Adsorption**, **Desorption**).</li>
+                <li>En la columna de la derecha (phys), navegue por el árbol **Graphs** y **Tables** para añadir los gráficos y métodos de cálculo que necesite (ej: **Isotherm**, **BET**, **BJH**, **DFT**).</li>
+                <li>Use el botón **Add** para mover los elementos seleccionados al reporte.</li>
+            </ul>
+            <img src="{% static 'admin_interface/tutorial/img4.png' %}" alt="Ventana Properties of reportname con selección de parámetros" class="image-step" style="max-width: 700px;">
+        </div>
+
+        <div class="step">
+            <h2>Paso 5: Generar y Gestionar tus Informes en PoreMap ✨</h2>
+            <p>Una vez que ha generado los informes en NovaWin (que generalmente se exportan como PDF o Excel), use la plataforma PoreMap para la gestión y análisis avanzado:</p>
+            
+        </div>
+        
+        <a href="{% url 'home' %}" class="btn-back">← Volver al Inicio</a>
+    </div>
+
+</body>
+</html>

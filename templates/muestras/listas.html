@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de informes BET</title>
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+ 
+
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom_admin.css' %}">
+</head>
+<body>
+    <h1>Listado informes BET</h1>
+    <a href="{% url 'crear_muestra' %}" class="actions">Crear nueva muestra</a>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Empresa</th>
+            <th>Sample#</th>
+            <th>Cell+Sample</th>
+            <th>Sample Before Degas</th>
+            <th>Cell+Sample After Degas</th>
+            <th>Sample After Degas</th>
+            <th>Degas</th>
+            <th>Degas/1g</th>
+            <th>MultiBET [0.05–0.35] (m²/g)</th>
+            <th>SD (m²/g)</th>
+            <th>D_NK Fractal</th>
+            <th>D_FHH Fractal</th>
+            <th>SingleBET at 0.25 (m²/g)</th>
+            <th>Acciones</th>
+        </tr>
+
+
+        {% for muestra in muestras %}
+        <tr>
+            <td>{{ muestra.id }}</td>
+            <td>{{ muestra.empresa.nombre }}</td>
+            <td>{{ muestra.sample_number }}</td>
+            <td>{{ muestra.cell_sample }}</td>
+            <td>{{ muestra.sample_before_degas }}</td>
+            <td>{{ muestra.cell_sample_after_degas }}</td>
+            <td>{{ muestra.sample_after_degas }}</td>
+            <td>{{ muestra.degas }}</td>
+            <td>{{ muestra.degas_per_g }}</td>
+            <td>{{ muestra.multiBET_range }}</td>
+            <td>{{ muestra.sd }}</td>
+            <td>{{ muestra.d_nk }}</td>
+            <td>{{ muestra.d_fhh }}</td>
+            <td>{{ muestra.singleBET }}</td>
+            <td class="actions">
+                <a href="{% url 'editar_muestra' muestra.id %}">Editar</a>
+                <a href="{% url 'eliminar_muestra' muestra.id %}">Eliminar</a>
+            </td>
+            <td>
+             <a href="{% url 'generar_informe_automatico' muestra.id %}"> class="btn btn-primary">
+              Generar Informe
+             </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="17">No tienes muestras asignadas.</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <form action="{% url 'ejecutar_todos_informes' %}" method="get">
+    <button type="submit" class="btn btn-success">Callate un rato</button>
+</form>
+</body>
+</html>

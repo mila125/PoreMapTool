@@ -1,0 +1,71 @@
+/* === Fondo plomo y textos rosados === */
+body, #header, #nav-sidebar, .module, .module caption {
+    background-color: rgb(230 234 220) !important; /* plomo */
+    color: #ff69b4 !important;            /* rosado */
+}
+
+/* Branding / Header */
+#header h1, #header h1 a {
+    color: #ff69b4 !important;
+    text-decoration: none;
+}
+
+/* Sidebar / Menú lateral */
+#nav-sidebar a, #nav-sidebar .model, #nav-sidebar .module {
+    color: #ff69b4 !important;
+}
+
+/* Hover para links */
+a:hover, #site-name a:hover, #header a:hover, #nav-sidebar a:hover, .module caption a:hover {
+    color: #ff1493 !important; /* rosado más fuerte */
+}
+
+/* Títulos de módulos */
+.module caption, .module caption a {
+    color: #ff69b4 !important;
+}
+
+/* Botones y acciones */
+input[type="submit"], .button, .deletelink, .addlink {
+    background-color: rgb(230 234 220) !important;
+    color: #ff69b4 !important;
+    border: 1px solid #ff69b4 !important;
+}
+
+/* Otros links generales */
+a, a:link, a:visited {
+    color: #ff69b4 !important;
+}
+/* Evita que el admin use dark mode */
+html {
+    color-scheme: light !important;
+}
+
+/* Si Django intenta aplicar data-theme="dark" */
+html[data-theme="dark"] {
+    color-scheme: light !important;
+}
+
+/* Fuerza colores claros */
+:root {
+    /* Paleta verde oliva */
+    --primary: #6b8e23;          /* oliva principal */
+    --primary-strong: rgb(19, 46, 25);   /* oliva oscuro */
+    --secondary: #d6dbc3;        /* oliva claro / plomo verdoso */
+
+    --body-bg: #f5f7ef;          /* fondo muy claro oliva */
+    --body-fg: #2f3a1f;          /* texto verde oscuro */
+
+    --border-color: #6b8e23;
+
+    --button-bg: #6b8e23;
+    --button-fg: #ffffff;
+    --button-hover-bg: #556b2f;
+
+    --font-family-primary: "Segoe UI", Arial, sans-serif;
+}
+html[data-theme="dark"] {
+    --body-bg: #ffffff;
+    --body-fg: #000000;
+    --header-bg: #f8f9fa;
+}

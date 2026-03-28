@@ -1,0 +1,67 @@
+[
+  {
+    "radius": 15.3296,
+    "adsorcion": 2.3246e-05,
+    "desorcion": 0.0014264
+  },
+  {
+    "radius": 17.1209,
+    "adsorcion": 3.7024e-05,
+    "desorcion": 0.009289
+  },
+  {
+    "radius": 19.1568,
+    "adsorcion": 3.795e-05,
+    "desorcion": 0.01224
+  },
+  {
+    "radius": 21.5437,
+    "adsorcion": 2.77e-05,
+    "desorcion": 0.0030909
+  },
+  {
+    "radius": 24.4659,
+    "adsorcion": 1.4144e-05,
+    "desorcion": 0.0049305
+  },
+  {
+    "radius": 27.9466,
+    "adsorcion": 4.0988e-05,
+    "desorcion": 0.0060454
+  },
+  {
+    "radius": 32.4078,
+    "adsorcion": 3.8989e-05,
+    "desorcion": 0.0062076
+  },
+  {
+    "radius": 38.4927,
+    "adsorcion": 4.7346e-05,
+    "desorcion": 0.0061681
+  },
+  {
+    "radius": 47.1004,
+    "adsorcion": 3.3313e-05,
+    "desorcion": 0.0063049
+  },
+  {
+    "radius": 60.7211,
+    "adsorcion": 3.7399e-05,
+    "desorcion": 0.0069664
+  },
+  {
+    "radius": 88.2939,
+    "adsorcion": 3.0621e-05,
+    "desorcion": 0.0073498
+  },
+  {
+    "radius": 150.7875,
+    "adsorcion": 2.198e-05,
+    "desorcion": 0.0072864
+  },
+  {
+    "radius": 1209.4921,
+    "adsorcion": 4.2607e-06,
+    "desorcion": 0.00048298
+  }
+]
