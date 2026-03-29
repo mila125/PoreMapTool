@@ -1,3 +1,7 @@
+Requirimientos de sistema: Windows 10/11
+-Python 3.11
+-Anaconda
+-Software NovaWin instalado
 Instalación de PoreMap
 1. Crear entorno (recomendado: conda)
 conda create -n poremap python=3.11 -y
