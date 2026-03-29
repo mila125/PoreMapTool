@@ -1,11 +1,13 @@
-pasos para instalar PoreMap
-Crear entorno virtual:
-  py -3.14 -m venv venv
-Activar:
-  venv\Scripts\activate
-Instalar requirimientos:
-  pip install -r requirements.txt
-Ejecuta las migración siempre con:
-  python manage.py migrate
-Correr PoreMap con:
-  python manage.py runserver
+Instalación de PoreMap
+1. Crear entorno (recomendado: conda)
+conda create -n poremap python=3.11 -y
+conda activate poremap
+2. Instalar dependencias
+pip install --upgrade pip
+pip install -r requirements.txt
+3. Aplicar migraciones
+python manage.py migrate
+4. Crear superusuario
+python manage.py createsuperuser
+5. Ejecutar servidor
+python manage.py runserver
